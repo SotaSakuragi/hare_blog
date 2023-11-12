@@ -15,9 +15,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('user')->latest()->paginate(4);
+        $posts = Post::with('user')->latest()->paginate(10);
+        $posts2 = Post::orderBy('coin', 'asc')->paginate(10); // 'coin'はコインの数を格納しているカラム名に置き換えてください
 
-        return view('posts.index', compact('posts'));
+        return view('posts.index', compact('posts','posts2'));
+        // コインが少ない順に並べ替えて、必要なデータを取得
     }
 
     /**
@@ -38,6 +40,9 @@ class PostController extends Controller
 
         $file = $request->file('image');
         $post->image = self::createFileName($file);
+
+        $file1 = $request->file('audio');
+        $post->audio = self::createFileName($file1);
         // トランザクション開始
         DB::beginTransaction();
         try {
@@ -46,6 +51,12 @@ class PostController extends Controller
 
             // 画像アップロード
             if (!Storage::putFileAs('images/posts', $file, $post->image)) {
+                // 例外を投げてロールバックさせる
+                throw new \Exception('画像ファイルの保存に失敗しました。');
+            }
+
+            // 音声アップロード
+            if (!Storage::putFileAs('audios/posts', $file1, $post->audio)) {
                 // 例外を投げてロールバックさせる
                 throw new \Exception('画像ファイルの保存に失敗しました。');
             }

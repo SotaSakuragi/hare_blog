@@ -40,4 +40,20 @@ Route::resource('posts.comments', CommentController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])
     ->middleware('auth');
 
+Route::get('/cash/credit', function () {
+    return view('cash.credit');
+})->name('cash.credit');
+
+Route::get('/cash/sorry', function () {
+    return view('cash.sorry');
+})->name('cash.sorry');
+
+Route::get('/cash/index', function () {
+    return view('cash.index');
+})->name('cash.index');
+
+Route::get('/cash/menu', function () {
+    return view('cash.menu');
+})->name('cash.menu');
+
 require __DIR__ . '/auth.php';

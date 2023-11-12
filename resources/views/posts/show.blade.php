@@ -13,7 +13,17 @@
                 {{ $post->created_at }}
             </p>
             <img src="{{ $post->image_url }}" alt="" class="mb-4">
-            <p class="text-gray-700 text-base break-words">{!! nl2br(e($post->body)) !!}</p>
+            {{-- オーディオプレーヤーのコンテナ --}}
+            <div class="audio-container my-4">
+                <audio id="audioPlayer" controls>
+                    <source src="{{ $post->audio_url }}" type="audio/mp3">
+                    お使いのブラウザはオーディオプレーヤーをサポートしていません。
+                </audio>
+            </div>
+            <p>時間 {{ $post->datetime }} から！ 必要コイン {{ $post->coin }}/分 </p>
+            <br>
+            <p class="font-bold text-lg text-gray-700 text-base break-words">紹介</p>
+            <p class="font-bold text-2xl text-gray-700 text-base break-words">{!! nl2br(e($post->body)) !!}</p>
         </article>
         <div class="flex flex-row text-center my-4">
             @can('update', $post)
@@ -34,8 +44,10 @@
             <hr class="my-4">
 
             <div class="flex justify-end">
+                <a href="{{ route('cash.sorry', $post) }}"
+                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2">購入する！</a>
                 <a href="{{ route('posts.comments.create', $post) }}"
-                    class="bg-indigo-400 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline block">コメント登録</a>
+                    class="bg-indigo-400 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline block">メッセージ送信</a>
             </div>
         @endauth
 

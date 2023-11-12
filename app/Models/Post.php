@@ -13,6 +13,8 @@ class Post extends Model
     protected $fillable = [
         'title',
         'body',
+        'coin',
+        'datetime',
     ];
 
     public function user()
@@ -30,8 +32,18 @@ class Post extends Model
         return Storage::url($this->image_path);
     }
 
+    public function getAudioUrlAttribute()
+    {
+        return Storage::url($this->audio_path);
+    }
+
     public function getImagePathAttribute()
     {
         return 'images/posts/' . $this->image;
+    }
+
+    public function getAudioPathAttribute()
+    {
+        return 'audios/posts/' . $this->audio;
     }
 }

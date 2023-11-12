@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('title');
             $table->text('body');
             $table->string('image');
+            $table->integer('coin'); // コイン/分を整数で保存するカラム
+            $table->datetime('datetime'); // 日時を保存するカラム
+            $table->string('audio')->nullable(); // 音声ファイルのパスを保存するカラム
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnUpdate()
